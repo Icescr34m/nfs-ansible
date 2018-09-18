@@ -19,11 +19,3 @@
     - name: Exportar path
       command: exportfs -o rw,async,insecure,no_root_squash,no_subtree_check *:/mangue
     
-    - name: Tunning do NFS
-      command: sed -i 's/RPCNFSDCOUNT=8/RPCNFSDCOUNT=16/g' /etc/sysconf/nfs
-    
-    - name: Restart NFS apos tunning
-      service:
-        name: nfs-kernel-server
-        state: restarted
-  
