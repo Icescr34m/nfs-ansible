@@ -1,0 +1,2 @@
+[nfs-server]
+server  ansible_host=<ip_do_nfs_server> ansible_user=<usuario_do_ssh_da_maquina>

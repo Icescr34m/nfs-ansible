@@ -1,0 +1,29 @@
+---
+- hosts: nfs-server
+  become: true
+  tasks:
+    - name: Instalar pacotes do NFS
+      apt:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      with_items:
+        - nfs-kernel-server
+    
+    - name: startar NFS server
+      service:
+        name: nfs-kernel-server
+        state: started
+        enabled: yes
+
+    - name: Exportar path
+      command: exportfs -o rw,async,insecure,no_root_squash,no_subtree_check *:/mangue
+    
+    - name: Tunning do NFS
+      command: sed -i 's/RPCNFSDCOUNT=8/RPCNFSDCOUNT=16/g' /etc/sysconf/nfs
+    
+    - name: Restart NFS apos tunning
+      service:
+        name: nfs-kernel-server
+        state: restarted
+  
